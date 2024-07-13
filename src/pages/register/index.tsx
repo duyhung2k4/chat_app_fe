@@ -11,9 +11,12 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import regsiterTheme from "./theme";
+import { useRegisterMutation } from "@/redux/api/auth.api";
 
 
 const Register: React.FC = () => {
+
+    const [post, { isLoading } ] = useRegisterMutation();
 
     const form = useForm<FormRegister>({
         initialValues: {
@@ -32,8 +35,9 @@ const Register: React.FC = () => {
         }
     })
 
-    const handleRegsiter = (values: FormRegister) => {
-        console.log(values);
+    const handleRegsiter = async (values: FormRegister) => {
+        const result = await post(values);
+        console.log(result);
     }
 
     return (
@@ -126,6 +130,7 @@ const Register: React.FC = () => {
                         </form>
 
                         <Button
+                            loading={isLoading}
                             type="submit"
                             form="register"
                             style={{

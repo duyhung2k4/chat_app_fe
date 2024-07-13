@@ -2,17 +2,17 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { axiosBaseQuery } from "../query/baseQuery";
 import { endPoint } from "../query/endpoint";
 import { QueryReturnType } from "@/dto/request/base.request";
-import { AuthResponse } from "@/dto/response/auth.response";
-import { RegisterRequest } from "@/dto/request/auth.request";
+import { AuthResponse, GetTimeCodePedingResponse } from "@/dto/response/auth.response";
+import { GetTimeCodePedingRequest, RegisterRequest } from "@/dto/request/auth.request";
 import { ROLE_APP } from "@/model/variable";
 
 export const authApi = createApi({
     reducerPath: "authApi",
     baseQuery: axiosBaseQuery(),
     endpoints: (builder) => ({
-        loginGoogle: builder.mutation<QueryReturnType<AuthResponse>, RegisterRequest>({
+        login: builder.mutation<QueryReturnType<AuthResponse>, RegisterRequest>({
             query: (payload) => ({
-                ...endPoint.auth.loginGoogle(),
+                ...endPoint.auth.login(),
                 data: {
                     ...payload,
                     role: ROLE_APP,
@@ -30,11 +30,19 @@ export const authApi = createApi({
                 ...endPoint.auth.register(),
                 data: payload,
             }),
+        }),
+        getTimeCodePending: builder.query<QueryReturnType<GetTimeCodePedingResponse>, GetTimeCodePedingRequest>({
+            query: (payload) => ({
+                ...endPoint.auth.getTimeCodePending(),
+                params: payload,
+            }),
         })
     })
 });
 
 export const {
-    useLoginGoogleMutation,
+    useLoginMutation,
     useRefreshTokenMutation,
+    useRegisterMutation,
+    useGetTimeCodePendingQuery,
 } = authApi;

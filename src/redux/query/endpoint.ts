@@ -23,8 +23,8 @@ export const HEADER = {
 
 export const endPoint = {
     auth: {
-        loginGoogle: () => ({
-            url: "account/api/v1/public/login-google",
+        login: () => ({
+            url: "account/api/v1/public/auth/login",
             method: "POST",
             headers: HEADER.defaultHeader(),
         }),
@@ -34,8 +34,13 @@ export const endPoint = {
             headers: HEADER.refreshTokenHeader(),
         }),
         register: () => ({
-            url: "account/api/v1/public/register",
+            url: "account/api/v1/public/auth/register",
             method: "POST",
+            headers: HEADER.defaultHeader(),
+        }),
+        getTimeCodePending: () => ({
+            url: "account/api/v1/public/auth/time-code-pending",
+            method: "GET",
             headers: HEADER.defaultHeader(),
         })
     },

@@ -5,3 +5,7 @@ export type AuthResponse = {
   refreshToken: string
   profile: ProfileModel
 }
+
+export type GetTimeCodePedingResponse = {
+    dataTime: Date
+}

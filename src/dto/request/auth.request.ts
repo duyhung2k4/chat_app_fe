@@ -5,3 +5,7 @@ export type RegisterRequest = {
     password: string
     repeatPassword: string
 }
+
+export type GetTimeCodePedingRequest = {
+    email: string
+}
