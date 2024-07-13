@@ -1,0 +1,11 @@
+.icon {
+    height: 34px;
+    width: 34px;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 2px !important;
+}
+
+.icon:hover {
+    background-color: #ddedf8;
+}

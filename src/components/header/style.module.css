@@ -1,0 +1,23 @@
+.root {
+    padding: 20px;
+    border-bottom: 2px solid black;
+}
+
+.text__input {
+    border-bottom: 1px solid black;
+}
+
+.navlink__home {
+    width: auto !important;
+    justify-content: center;
+
+    &[data-active="true"] {
+        background-color: #FFFFFF;
+    }
+}
+
+.navlink__label {
+    font-size: 20px !important;
+    font-weight: 600;
+    color: black;
+}

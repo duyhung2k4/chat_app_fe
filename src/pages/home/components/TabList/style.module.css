@@ -1,0 +1,16 @@
+.tab {
+    &[data-active="true"] {
+        background-color: rgb(200, 200, 200);
+        transition: 200ms;
+        
+        .tab__label {
+            color: black;
+        }
+    }
+}
+
+.tab__list {
+    overflow-x: scroll;
+    flex-wrap: nowrap !important;
+    padding: 8px 0px;
+}

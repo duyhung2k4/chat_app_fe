@@ -1,0 +1,19 @@
+.nav__link {
+    text-decoration: none;
+    color: black;
+
+    &[data-active="true"] {
+        background-color: #FFF;
+        color: black;
+
+        .nav__link__active {
+            font-size: 20px;
+            transition: 200ms;
+            font-weight: 600;
+        }
+    }
+}
+
+.nav__link:hover {
+    background-color: #ddedf8;
+}
