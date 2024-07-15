@@ -9,14 +9,25 @@ import {
     Text,
     TextInput
 } from "@mantine/core";
-import { useForm } from "@mantine/form";
+
+import Cookies from "js-cookie";
 import regsiterTheme from "./theme";
+import dayjs from "dayjs";
+
+import { useForm } from "@mantine/form";
 import { useRegisterMutation } from "@/redux/api/auth.api";
+import { useNotification } from "@/hook/notification.hook";
+import { TOKEN_TYPE } from "@/model/variable";
+import { useNavigate } from "react-router";
+import { ROUTER } from "@/constants/router";
+
 
 
 const Register: React.FC = () => {
 
     const [post, { isLoading } ] = useRegisterMutation();
+    const noti =  useNotification();
+    const navigation = useNavigate();
 
     const form = useForm<FormRegister>({
         initialValues: {
@@ -37,7 +48,14 @@ const Register: React.FC = () => {
 
     const handleRegsiter = async (values: FormRegister) => {
         const result = await post(values);
-        console.log(result);
+        
+        if("error" in result) {
+            noti.error("Đăng ký thất bại");
+            return;
+        }
+
+        Cookies.set(TOKEN_TYPE.INFO_REPEAT_CODE, values.email, { expires: dayjs().add(60, "second").toDate() });
+        navigation(ROUTER.ACCEPT_CODE.href);
     }
 
     return (

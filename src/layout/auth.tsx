@@ -13,17 +13,17 @@ const AuthLayout: React.FC = () => {
   const accessToken = Cookies.get(TOKEN_TYPE.ACCESS_TOKEN);
   const refreshToken = Cookies.get(TOKEN_TYPE.REFRESH_TOKEN);
 
-  useEffect(() => {
-    const isToken = !accessToken || !refreshToken ? false : true;
-    if (isToken === true) {
-      const pathname = window.location.pathname;
-      navigation(pathname !== ROUTER.REGISTER.href ? pathname : "/");
-    }
+//   useEffect(() => {
+//     const isToken = !accessToken || !refreshToken ? false : true;
+//     if (isToken === true) {
+//       const pathname = window.location.pathname;
+//       navigation(pathname !== ROUTER.REGISTER.href ? pathname : "/");
+//     }
 
-    if (isToken === false) {
-      navigation(ROUTER.REGISTER.href);
-    }
-  }, [accessToken, refreshToken]);
+//     if (isToken === false) {
+//       navigation(ROUTER.REGISTER.href);
+//     }
+//   }, [accessToken, refreshToken]);
 
   return (
     <Suspense fallback={<LoadingOverlay visible overlayProps={{ radius: "sm", blur: 2 }}/>}>

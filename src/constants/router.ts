@@ -5,7 +5,7 @@ export type ObjectRouter = {
   type: "public" | "protected"
 }
 
-export type FieldRouter = "LOGIN" | "HOME" | "REGISTER";
+export type FieldRouter = "LOGIN" | "HOME" | "REGISTER" | "ACCEPT_CODE";
 export const ROUTER: Record<FieldRouter, ObjectRouter> = {
   LOGIN: {
     href: "/login",
@@ -19,5 +19,9 @@ export const ROUTER: Record<FieldRouter, ObjectRouter> = {
     href: "/",
     type: "public",
     name: "PKA-ECOM",
+  },
+  ACCEPT_CODE: {
+    href: "/accept-code",
+    type: "public",
   },
 }

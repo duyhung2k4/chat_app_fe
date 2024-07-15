@@ -6,6 +6,7 @@ import AppshellLayout from "@/layout/appShell";
 import { Routes, Route } from "react-router";
 
 import {  
+    PageAcceptCode,
     PageHome,
     PageLogin, 
     PageNotFound,
@@ -19,6 +20,7 @@ const AppRouter: React.FC = () => {
       <Route element={<AuthLayout />}>
         <Route path={ROUTER.LOGIN.href} element={<PageLogin />} />
         <Route path={ROUTER.REGISTER.href} element={<PageRegister />} />
+        <Route path={ROUTER.ACCEPT_CODE.href} element={<PageAcceptCode/>} />
 
         <Route element={<ProtectedLayout/>}>
           <Route element={<AppshellLayout/>}>

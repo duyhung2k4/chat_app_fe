@@ -3,7 +3,7 @@ import { axiosBaseQuery } from "../query/baseQuery";
 import { endPoint } from "../query/endpoint";
 import { QueryReturnType } from "@/dto/request/base.request";
 import { AuthResponse, GetTimeCodePedingResponse } from "@/dto/response/auth.response";
-import { GetTimeCodePedingRequest, RegisterRequest } from "@/dto/request/auth.request";
+import { AcceptCodeRequest, GetTimeCodePedingRequest, RegisterRequest, RepeatCodeRequest } from "@/dto/request/auth.request";
 import { ROLE_APP } from "@/model/variable";
 
 export const authApi = createApi({
@@ -36,13 +36,28 @@ export const authApi = createApi({
                 ...endPoint.auth.getTimeCodePending(),
                 params: payload,
             }),
+        }),
+        repeatCode: builder.mutation<QueryReturnType<null>, RepeatCodeRequest>({
+            query: (payload) => ({
+                ...endPoint.auth.repeatCode(),
+                data: payload,
+            }),
+        }),
+        acceptCode: builder.mutation<QueryReturnType<any>, AcceptCodeRequest>({
+            query: (payload) => ({
+                ...endPoint.auth.acceptCode(),
+                data: payload,
+            }),
         })
     })
 });
 
 export const {
+    useGetTimeCodePendingQuery,
+
     useLoginMutation,
     useRefreshTokenMutation,
     useRegisterMutation,
-    useGetTimeCodePendingQuery,
+    useAcceptCodeMutation,
+    useRepeatCodeMutation,
 } = authApi;

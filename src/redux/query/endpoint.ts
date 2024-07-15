@@ -42,7 +42,17 @@ export const endPoint = {
             url: "account/api/v1/public/auth/time-code-pending",
             method: "GET",
             headers: HEADER.defaultHeader(),
-        })
+        }),
+        repeatCode: () => ({
+            url: "account/api/v1/public/auth/repeat-code",
+            method: "POST",
+            headers: HEADER.defaultHeader(),
+        }),
+        acceptCode: () => ({
+            url: "account/api/v1/public/auth/accept-code",
+            method: "POST",
+            headers: HEADER.defaultHeader(),
+        }),
     },
     shop: {
         getShop: () => ({

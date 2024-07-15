@@ -11,16 +11,16 @@ const ProtectedLayout: React.FC = () => {
   const [ refresh ] = useRefreshTokenMutation();
   const navigation = useNavigate();
 
-  const handleRefresh = async () => {
-    const res = await refresh(null);
-    if("error" in res) {
-      navigation(ROUTER.REGISTER.href);
-    }
-  }
+//   const handleRefresh = async () => {
+//     const res = await refresh(null);
+//     if("error" in res) {
+//       navigation(ROUTER.REGISTER.href);
+//     }
+//   }
 
-  useEffect(() => {
-    handleRefresh();
-  }, []);
+//   useEffect(() => {
+//     handleRefresh();
+//   }, []);
 
   return (
     <Suspense fallback={<LoadingOverlay visible overlayProps={{ radius: "sm", blur: 2 }} />}>

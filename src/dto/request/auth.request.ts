@@ -9,3 +9,12 @@ export type RegisterRequest = {
 export type GetTimeCodePedingRequest = {
     email: string
 }
+
+export type RepeatCodeRequest = {
+    email: string
+}
+
+export type AcceptCodeRequest = {
+    email: string
+    code: string
+}
