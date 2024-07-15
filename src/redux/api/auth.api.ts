@@ -3,14 +3,14 @@ import { axiosBaseQuery } from "../query/baseQuery";
 import { endPoint } from "../query/endpoint";
 import { QueryReturnType } from "@/dto/request/base.request";
 import { AuthResponse, GetTimeCodePedingResponse } from "@/dto/response/auth.response";
-import { AcceptCodeRequest, GetTimeCodePedingRequest, RegisterRequest, RepeatCodeRequest } from "@/dto/request/auth.request";
+import { AcceptCodeRequest, GetTimeCodePedingRequest, LoginRequest, RegisterRequest, RepeatCodeRequest } from "@/dto/request/auth.request";
 import { ROLE_APP } from "@/model/variable";
 
 export const authApi = createApi({
     reducerPath: "authApi",
     baseQuery: axiosBaseQuery(),
     endpoints: (builder) => ({
-        login: builder.mutation<QueryReturnType<AuthResponse>, RegisterRequest>({
+        login: builder.mutation<QueryReturnType<AuthResponse>, LoginRequest>({
             query: (payload) => ({
                 ...endPoint.auth.login(),
                 data: {

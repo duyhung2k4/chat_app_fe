@@ -1,135 +1,142 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
-  Button,
-  Divider,
-  Group,
-  Stack,
-  Text,
-  TextInput,
-  Title,
-  Image,
-  PasswordInput,
-  LoadingOverlay
+    Button,
+    Grid,
+    Group,
+    MantineProvider,
+    PasswordInput,
+    Stack,
+    Text,
+    TextInput
 } from "@mantine/core";
-import IconGoogle from "@/assets/icon/google-color-svgrepo-com.svg";
 
-import { useMediaQuery } from "@mantine/hooks";
-import { useGoogleLogin } from '@react-oauth/google';
-import { getGoogleProfile } from "@/utils/google";
-import { useLoginGoogleMutation } from "@/redux/api/auth.api";
-import { LoginGoogleRequest } from "@/dto/request/auth.request";
+import loginTheme from "./theme";
+
+import { useForm } from "@mantine/form";
+import { useLoginMutation } from "@/redux/api/auth.api";
 import { useNotification } from "@/hook/notification.hook";
 import { useNavigate } from "react-router";
+import { ROUTER } from "@/constants/router";
 
 
-const Login: React.FC = () => {
-  const [accessToken, setAccessToken] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [_, setData] = useState<any>(null);
-  const noti = useNotification();
-  const navigation = useNavigate();
 
-  const isMobile = useMediaQuery(`(max-width: ${564}px)`);
-  const [login] = useLoginGoogleMutation();
+const Register: React.FC = () => {
+    const [post, { isLoading } ] = useLoginMutation();
+    const noti =  useNotification();
+    const navigation = useNavigate();
 
-  const loginGoogle = useGoogleLogin({
-    onSuccess: data => {
-      setAccessToken(data.access_token);
-      setData(data);
-    },
-    onError: () => {
-      setAccessToken("");
-      setData(null);
-    },
-    flow: 'implicit',
-    scope: 'profile email',
-  });
+    const form = useForm<FormLogin>({
+        initialValues: {
+            email: "",
+            password: "",
+        },
+        validate: {
+            email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Email không hợp lệ'),
+            password: (value) => value.length <= 6 ? "Mật khẩu quá ngắn" : null,
+        }
+    })
 
-  const handleLogin = async () => {
-    setLoading(true);
-    const result = await getGoogleProfile(accessToken);
-    const res = await login(result as LoginGoogleRequest);
-    setLoading(false);
-    
-    if ("error" in res) {
-      noti.error("Đăng nhập thất bại");
-      return;
+    const handleRegsiter = async (values: FormLogin) => {
+        const result = await post(values);
+        
+        if("error" in result) {
+            noti.error("Đăng nhập thất bại");
+            return;
+        }
     }
 
-    noti.success("Đăng nhập thành công");
-    navigation("/");
-  }
+    return (
+        <MantineProvider theme={loginTheme}>
+            <Group
+                style={{
+                    backgroundColor: "#323232",
+                    height: "100vh",
+                    width: "100vw",
+                }}
+                align="center"
+                justify="center"
+            >
+                <Group
+                    style={{
+                        height: "90%",
+                        backgroundColor: "#131313",
+                        padding: "32px 50px",
+                        color: "#FFF",
+                        borderRadius: 20
+                    }}
+                    align="center"
+                    justify="center"
+                >
+                    <Stack
+                        style={{
+                            width: 400
+                        }}
+                    >
+                        <Stack>
+                            <Text
+                                style={{
+                                    color: "#414141",
+                                    fontWeight: 600,
+                                    textTransform: "uppercase"
+                                }}
+                            >Đăng nhập</Text>
+                            <Text
+                                style={{
+                                    fontSize: 30
+                                }}
+                            >Chào mừng bạn quay lại</Text>
+                            <Text
+                                style={{}}
+                            >
+                                Bạn chưa có tài khoản?&nbsp;
+                                <span
+                                    style={{
+                                        color: "#B54D32",
+                                        cursor: "pointer",
+                                        fontWeight: 600
+                                    }}
+                                    onClick={() => navigation(ROUTER.REGISTER.href)}
+                                >Đăng kí</span>
+                            </Text>
+                        </Stack>
 
-  useEffect(() => {
-    if (accessToken.length > 0) {
-      handleLogin();
-    }
-  }, [accessToken]);
+                        <form id="register" onSubmit={form.onSubmit(handleRegsiter)}>
+                            <Grid>
+                                <Grid.Col span={12}>
+                                    <TextInput
+                                        label="Email"
+                                        {...form.getInputProps("email")}
+                                    />
+                                </Grid.Col>
+                                <Grid.Col span={12}>
+                                    <PasswordInput
+                                        label="Mật khẩu"
+                                        {...form.getInputProps("password")}
+                                    />
+                                </Grid.Col>
+                            </Grid>
+                        </form>
 
-  return (
-    <Group
-      h={"100vh"}
-      w={"100%"}
-      align="center"
-      justify="center"
-      bg={"#e0e0e0"}
-    >
-      <LoadingOverlay visible={loading} overlayProps={{ blur: 2, radius: "sm" }} />
-      <Stack
-        align="center"
-        justify="center"
-        p={48}
-        w={isMobile ? "100%" : 400}
-        h={isMobile ? "100%" : "auto"}
-        style={{
-          borderRadius: 8,
-          backgroundColor: "#f7f7f7",
-        }}
-      >
-        <Title>Đăng nhập</Title>
-        <Text
-          style={{ textAlign: "center" }}
-        >Chào mừng đến với sàn thương mại điện tử của H</Text>
-        <TextInput
-          label="Email"
-          placeholder="Nhập email"
-          w={"100%"}
-        />
-        <PasswordInput
-          label="Mật khẩu"
-          placeholder="Nhập mật khẩu"
-          w={"100%"}
-        />
-
-        <Button
-          w={"100%"}
-          mt={40}
-        >Đăng nhập</Button>
-
-        <Divider
-          label="Hoặc"
-          color="#000"
-          labelPosition="center"
-          mt={14}
-          mb={14}
-          w={"80%"}
-        />
-
-        <Button
-          w={"100%"}
-          variant="outline"
-          onClick={() => loginGoogle()}
-          leftSection={<Image height={18} width={18} src={IconGoogle} />}
-          style={{
-            backgroundColor: "#fff !important",
-            color: "#000",
-            borderColor: "#000",
-            borderWidth: 2,
-          }}
-        >Đăng nhập với google</Button>
-      </Stack>
-    </Group>
-  )
+                        <Button
+                            loading={isLoading}
+                            type="submit"
+                            form="register"
+                            style={{
+                                marginTop: 20,
+                                borderRadius: 1000,
+                                padding: "0px 30px"
+                            }}
+                        >Đăng nhập</Button>
+                    </Stack>
+                </Group>
+            </Group>
+        </MantineProvider>
+    )
 }
 
-export default Login;
+type FormLogin = {
+    email: string
+    password: string
+}
+
+export default Register;

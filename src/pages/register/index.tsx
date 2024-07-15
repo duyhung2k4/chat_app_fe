@@ -108,6 +108,7 @@ const Register: React.FC = () => {
                                         cursor: "pointer",
                                         fontWeight: 600
                                     }}
+                                    onClick={() => navigation(ROUTER.LOGIN.href)}
                                 >Đăng nhập</span>
                             </Text>
                         </Stack>
