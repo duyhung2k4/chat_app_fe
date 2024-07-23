@@ -1,7 +1,6 @@
 import React, { createContext } from "react";
 import { Box, Stack } from '@mantine/core';
 import { useOutlet } from "react-router";
-import AppHeader from "@/components/header";
 
 export type AppShellContextType = {
   mobileOpened: boolean
@@ -22,7 +21,6 @@ const AppshellLayout: React.FC = () => {
 
   return (
     <Stack gap={0}>
-      <AppHeader/>
       <Box p={8}>
         {outlet}
       </Box>
