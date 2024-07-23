@@ -1,32 +1,33 @@
-import React, { Suspense, useEffect } from "react";
+import React, { createContext, Suspense, useMemo } from "react";
 
 import { LoadingOverlay } from "@mantine/core";
-import { useNavigate, useOutlet } from "react-router-dom";
-import { useRefreshTokenMutation } from "@/redux/api/auth.api";
-import { ROUTER } from "@/constants/router";
+import { useOutlet } from "react-router-dom";
 
 const ProtectedLayout: React.FC = () => {
-  const outlet = useOutlet();
+    const outlet = useOutlet();
 
-  const [ refresh ] = useRefreshTokenMutation();
-  const navigation = useNavigate();
+    const ws = useMemo(() => {
+        const params = new URLSearchParams({ id: '1' });
+        const ws = new WebSocket(`${import.meta.env.VITE_WS_URL}?${params}`);
 
-//   const handleRefresh = async () => {
-//     const res = await refresh(null);
-//     if("error" in res) {
-//       navigation(ROUTER.REGISTER.href);
-//     }
-//   }
+        return ws;
+    }, []);
 
-//   useEffect(() => {
-//     handleRefresh();
-//   }, []);
-
-  return (
-    <Suspense fallback={<LoadingOverlay visible overlayProps={{ radius: "sm", blur: 2 }} />}>
-      {outlet}
-    </Suspense>
-  )
+    return (
+        <ProtectedLayoutContext.Provider value={{ ws }}>
+            <Suspense fallback={<LoadingOverlay visible overlayProps={{ radius: "sm", blur: 2 }} />}>
+                {outlet}
+            </Suspense>
+        </ProtectedLayoutContext.Provider>
+    )
 }
+
+export type TypeProtectedLayoutContext = {
+    ws: WebSocket | null;
+}
+
+export const ProtectedLayoutContext = createContext<TypeProtectedLayoutContext>({
+    ws: null
+});
 
 export default ProtectedLayout;
