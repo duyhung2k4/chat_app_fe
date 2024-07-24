@@ -43,6 +43,8 @@ const Register: React.FC = () => {
             noti.error("Đăng nhập thất bại");
             return;
         }
+
+        navigation(ROUTER.HOME.href);
     }
 
     return (

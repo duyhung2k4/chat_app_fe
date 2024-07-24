@@ -29,7 +29,7 @@ export const endPoint = {
             headers: HEADER.defaultHeader(),
         }),
         refreshToken: () => ({
-            url: "account/api/v1/protected/refresh-token",
+            url: "account/api/v1/protected/auth/refresh-token",
             method: "POST",
             headers: HEADER.refreshTokenHeader(),
         }),

@@ -19,6 +19,7 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addMatcher(authApi.endpoints.login.matchFulfilled, (state, { payload }) => {
       state.profile = payload.data?.profile;
+      console.log(payload.data);
       if(payload.data?.accessToken && payload.data?.refreshToken) {
         Cookies.set(TOKEN_TYPE.ACCESS_TOKEN, payload.data.accessToken, { expires: 1 });
         Cookies.set(TOKEN_TYPE.REFRESH_TOKEN, payload.data.refreshToken, { expires: 3 });

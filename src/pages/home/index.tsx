@@ -8,8 +8,9 @@ const Home: React.FC = () => {
     const { ws } = useContext<TypeProtectedLayoutContext>(ProtectedLayoutContext);
 
     const send = () => {
-        const data = JSON.stringify({ mess: "done" });
+        const data = JSON.stringify({ mess: text });
         ws?.send(data);
+        setText("");
     }
 
     useEffect(() => {

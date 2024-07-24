@@ -4,7 +4,6 @@ import { endPoint } from "../query/endpoint";
 import { QueryReturnType } from "@/dto/request/base.request";
 import { AuthResponse, GetTimeCodePedingResponse } from "@/dto/response/auth.response";
 import { AcceptCodeRequest, GetTimeCodePedingRequest, LoginRequest, RegisterRequest, RepeatCodeRequest } from "@/dto/request/auth.request";
-import { ROLE_APP } from "@/model/variable";
 
 export const authApi = createApi({
     reducerPath: "authApi",
@@ -13,10 +12,7 @@ export const authApi = createApi({
         login: builder.mutation<QueryReturnType<AuthResponse>, LoginRequest>({
             query: (payload) => ({
                 ...endPoint.auth.login(),
-                data: {
-                    ...payload,
-                    role: ROLE_APP,
-                },
+                data: payload,
             }),
         }),
         refreshToken: builder.mutation<QueryReturnType<AuthResponse>, null>({
