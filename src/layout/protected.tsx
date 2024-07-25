@@ -22,7 +22,6 @@ const ProtectedLayout: React.FC = () => {
 
         return ws;
     }, [profileId]);
-
     
     useEffect(() => {
         post(null);
@@ -30,7 +29,9 @@ const ProtectedLayout: React.FC = () => {
 
     if(!Cookies.get(TYPE_TOKEN.ACCESS_TOKEN)) {
         navigation(ROUTER.LOGIN.href);
+        return;
     };
+
     if(isLoading) return <LoadingOverlay visible overlayProps={{ radius: "sm", blur: 2 }} />;
 
 
