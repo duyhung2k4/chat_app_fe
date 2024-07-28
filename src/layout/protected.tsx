@@ -17,8 +17,7 @@ const ProtectedLayout: React.FC = () => {
 
     const ws = useMemo(() => {
         if(!profileId) return null;
-        const params = new URLSearchParams({ id: `${profileId || ""}` });
-        const ws = new WebSocket(`${import.meta.env.VITE_WS_URL}?${params}`);
+        const ws = new WebSocket(`${import.meta.env.VITE_WS_URL}`);
 
         return ws;
     }, [profileId]);

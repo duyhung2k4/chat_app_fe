@@ -25,7 +25,7 @@ const Home: React.FC = () => {
         if (!ws) return;
         ws.onmessage = (e) => {
             const data = JSON.parse(e.data);
-            console.log(data);
+            console.log("rep: ", data);
         }
     }, []);
 
