@@ -13,7 +13,7 @@ const Home: React.FC = () => {
         const data = JSON.stringify({
             from_id: id,
             to_id: 2,
-            box_chat_id: 1,
+            box_chat_id: 3,
             group_chat_id: null,
             data: text
         });
