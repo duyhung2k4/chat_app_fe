@@ -26,6 +26,8 @@ const AppRouter: React.FC = () => {
         <Route element={<ProtectedLayout/>}>
           <Route element={<AppshellLayout/>}>
             <Route path={ROUTER.HOME.href} element={<PageHome/>} />
+            <Route path={ROUTER.BOX_CHAT.href} element={<PageHome/>} />
+            <Route path={ROUTER.GROUP_CHAT.href} element={<PageHome/>} />
             <Route path={ROUTER.TEST.href} element={<PageTest/>} />
           </Route>
         </Route>

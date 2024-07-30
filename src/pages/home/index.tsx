@@ -1,18 +1,25 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Avatar, Group, Stack, Tabs, Text, TextInput } from "@mantine/core";
-import { ProtectedLayoutContext, TypeProtectedLayoutContext } from "@/layout/protected";
-import { useAppSelector } from "@/redux/hook";
+import React, { useEffect, useMemo } from "react";
+import { Group, Stack, Tabs, TextInput } from "@mantine/core";
 import { useGetBoxChatQuery, useGetGroupChatQuery } from "@/redux/api/mess.api";
 
-import classes from "./styles.module.css";
 import { CardChat } from "./components/card";
 import { IconSearch } from "@tabler/icons-react";
+import { useNavigate } from "react-router";
+import { ROUTER } from "@/constants/router";
+
+import classes from "./styles.module.css";
+import MessBoxChat from "./components/mess_box_chat";
+import MessGroupChat from "./components/mess_group_chat";
+
+
 
 const Home: React.FC = () => {
-    const [text, setText] = useState<string>("");
-    const id = useAppSelector(state => state.authSlice.profile?.id);
+    const navigation = useNavigate();
 
-    const { ws } = useContext<TypeProtectedLayoutContext>(ProtectedLayoutContext);
+    const type_mess = useMemo(() => {
+        const t = window.location.pathname.split("/")?.[1];
+        return t === "box" ? "box_chat" : "group_chat";
+    }, [window.location.pathname]);
 
     const {
         data: dataBoxChat,
@@ -23,27 +30,9 @@ const Home: React.FC = () => {
         refetch: refetchGroupChat,
     } = useGetGroupChatQuery(null);
 
-    // const send = () => {
-    //     const data = JSON.stringify({
-    //         from_id: id,
-    //         to_id: null,
-    //         box_chat_id: 3,
-    //         group_chat_id: null,
-    //         data: text
-    //     });
-    //     ws?.send(data);
-    //     setText("");
-    // }
-
     useEffect(() => {
         refetchBoxChat();
         refetchGroupChat();
-
-        if (!ws) return;
-        ws.onmessage = (e) => {
-            const data = JSON.parse(e.data);
-            console.log("rep: ", data);
-        }
     }, []);
 
     return (
@@ -53,6 +42,7 @@ const Home: React.FC = () => {
                 width: "100%",
                 padding: 0,
             }}
+            gap={0}
         >
             <Stack
                 style={{
@@ -62,11 +52,21 @@ const Home: React.FC = () => {
                     padding: 8,
                 }}
             >
-                <TextInput 
+                <TextInput
                     placeholder="Tìm kiếm"
-                    leftSection={<IconSearch/>}
+                    leftSection={<IconSearch />}
                 />
-                <Tabs className={classes.tab} defaultValue="box_chat">
+                <Tabs
+                    className={classes.tab}
+                    defaultValue={type_mess}
+                    onChange={e =>
+                        navigation(
+                            e === "box_chat" ?
+                                ROUTER.BOX_CHAT.href.replace("/:id", "") :
+                                ROUTER.GROUP_CHAT.href.replace("/:id", "")
+                        )
+                    }
+                >
                     <Tabs.List>
                         <Tabs.Tab value="box_chat">
                             Đoạn chat
@@ -80,7 +80,12 @@ const Home: React.FC = () => {
                         <>
                             {
                                 (dataBoxChat?.data || []).map(item =>
-                                    <CardChat name={`${item.id}`} />
+                                    <CardChat
+                                        key={item.id}
+                                        name={`${item.id}`}
+                                        id={item.id}
+                                        type="box_chat"
+                                    />
                                 )
                             }
                         </>
@@ -90,12 +95,28 @@ const Home: React.FC = () => {
                         <>
                             {
                                 (dataGroupChat?.data || []).map(item =>
-                                    <CardChat name={`${item.id}`} />
+                                    <CardChat
+                                        key={item.id}
+                                        name={`${item.id}`}
+                                        id={item.id}
+                                        type="group_chat"
+                                    />
                                 )
                             }
                         </>
                     </Tabs.Panel>
                 </Tabs>
+            </Stack>
+
+            <Stack
+                style={{
+                    height: "100vh",
+                    width: "calc(100vw - 350px)",
+                    borderRight: "1px solid gray",
+                    padding: 8,
+                }}
+            >
+                {type_mess === "box_chat" ? <MessBoxChat /> : <MessGroupChat />}
             </Stack>
         </Group>
     )
