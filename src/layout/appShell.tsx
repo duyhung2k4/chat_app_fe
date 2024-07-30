@@ -21,7 +21,7 @@ const AppshellLayout: React.FC = () => {
 
   return (
     <Stack gap={0}>
-      <Box p={8}>
+      <Box p={0}>
         {outlet}
       </Box>
     </Stack>

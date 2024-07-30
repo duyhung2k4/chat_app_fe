@@ -8,6 +8,8 @@ import { Button, Group, LoadingOverlay, MantineProvider, PasswordInput, Stack, T
 import { useAcceptCodeMutation, useGetTimeCodePendingQuery, useRepeatCodeMutation } from "@/redux/api/auth.api";
 import { TOKEN_TYPE } from "@/model/variable";
 import { useNotification } from "@/hook/notification.hook";
+import { useNavigate } from "react-router";
+import { ROUTER } from "@/constants/router";
 
 dayjs.extend(relativeTime);
 
@@ -16,6 +18,7 @@ const AcceptCode: React.FC = () => {
     const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
 
     const noti = useNotification();
+    const navigation = useNavigate();
 
     const {
         data,
@@ -38,6 +41,9 @@ const AcceptCode: React.FC = () => {
             noti.error("Mã xác nhận sai");
             return;
         }
+
+        noti.success("Xác nhận thành công. Hãy đăng nhập!");
+        navigation(ROUTER.LOGIN.href);
     }
 
     const handleRepeat = async () => {

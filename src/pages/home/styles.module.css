@@ -1,0 +1,22 @@
+.tab {
+    & :global(.mantine-Tabs-list) {
+        justify-content: left;
+        gap: 8px;
+    }
+    & :global(.mantine-Tabs-list::before) {
+        border: 0px !important;
+    }
+
+    & :global(.mantine-UnstyledButton-root) {
+        border-radius: 999px;
+        border: 0;
+    }
+    & :global(.mantine-UnstyledButton-root:hover) {
+        background-color: #212121;
+    }
+
+    & :global(.mantine-focus-auto[aria-selected="true"]) {
+        background-color: #3a3a3a;
+        transition: 200ms;
+    }
+}

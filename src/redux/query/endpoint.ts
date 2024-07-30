@@ -54,49 +54,35 @@ export const endPoint = {
             headers: HEADER.defaultHeader(),
         }),
     },
-    shop: {
-        getShop: () => ({
-            url: "shop/api/v1/protected/shop",
-            method: "GET",
-            headers: HEADER.protectedHeader(),
-        }),
-        getDetailShop: () => ({
-            url: "shop/api/v1/protected/shop/get-detail-shop",
-            method: "GET",
-            headers: HEADER.protectedHeader(),
-        }),
-        createShop: () => ({
-            url: "shop/api/v1/protected/shop",
+    mess: {
+        createBoxChat: () => ({
+            url: "mess/api/v1/protected/create_box_chat",
             method: "POST",
             headers: HEADER.protectedHeader(),
         }),
-        checkDuplicate: () => ({
-            url: "shop/api/v1/protected/shop/check-duplicate",
-            method: "GET",
+        createGroupChat: () => ({
+            url: "mess/api/v1/protected/create_group_chat",
+            method: "POST",
             headers: HEADER.protectedHeader(),
-        })
-    },
-    typeProduct: {
-        getTypeProduct: () => ({
-            url: "shop/api/v1/protected/type-product",
+        }),
+        addMemberGroupChat: () => ({
+            url: "mess/api/v1/protected/add_member_group_chat",
+            method: "POST",
+            headers: HEADER.protectedHeader(),
+        }),
+        loadMessBoxChat: () => ({
+            url: "mess/api/v1/protected/box_chat_load_mess",
             method: "GET",
             headers: HEADER.protectedHeader(),
         }),
-        getCategory: () => ({
-            url: "shop/api/v1/public/type-product/category",
+        getBoxChat: () => ({
+            url: "mess/api/v1/protected/box_chat",
             method: "GET",
-            headers: HEADER.defaultHeader(),
-        }),
-        createTypeProduct: () => ({
-            url: "shop/api/v1/protected/type-product",
-            method: "POST",
             headers: HEADER.protectedHeader(),
-        })
-    },
-    product: {
-        createProduct: () => ({
-            url: "product/api/v1/protected/product",
-            method: "POST",
+        }),
+        getGroupChat: () => ({
+            url: "mess/api/v1/protected/profile_group_chat",
+            method: "GET",
             headers: HEADER.protectedHeader(),
         })
     }

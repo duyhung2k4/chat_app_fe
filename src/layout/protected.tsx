@@ -33,7 +33,6 @@ const ProtectedLayout: React.FC = () => {
 
     if(isLoading) return <LoadingOverlay visible overlayProps={{ radius: "sm", blur: 2 }} />;
 
-
     return (
         <ProtectedLayoutContext.Provider value={{ ws }}>
             <Suspense fallback={<LoadingOverlay visible overlayProps={{ radius: "sm", blur: 2 }} />}>
