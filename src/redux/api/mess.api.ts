@@ -30,7 +30,7 @@ export const messApi = createApi({
                 data: payload,
             }),
         }),
-        loadMessBoxChat: builder.query<QueryReturnType<MessModel>, { id: string }>({
+        loadMessBoxChat: builder.query<QueryReturnType<MessModel[]>, { id: string }>({
             query: (payload) => ({
                 ...endPoint.mess.loadMessBoxChat(),
                 params: payload,
