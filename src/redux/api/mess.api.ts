@@ -7,6 +7,7 @@ import { AddMemberGroupChatReq, CreateBoxChatReq, CreateGroupChatReq } from "@/d
 import { GroupChatModel } from "@/model/group_chat";
 import { ProfileGroupChatModel } from "@/model/profile_group_chat";
 import { MessModel } from "@/model/mess";
+import { ProfileModel } from "@/model/profile";
 
 export const messApi = createApi({
     reducerPath: "messApi",
@@ -45,6 +46,12 @@ export const messApi = createApi({
             query: () => ({
                 ...endPoint.mess.getGroupChat(),
             }),
+        }),
+        searchProfile: builder.query<QueryReturnType<ProfileModel[]>, { name: string, email: string }>({
+            query: (payload) => ({
+                ...endPoint.mess.searchProfile(),
+                params: payload
+            }),
         })
     })
 });
@@ -56,4 +63,5 @@ export const {
     useGetBoxChatQuery,
     useGetGroupChatQuery,
     useLoadMessBoxChatQuery,
+    useSearchProfileQuery,
 } = messApi;

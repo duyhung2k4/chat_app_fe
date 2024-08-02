@@ -1,18 +1,21 @@
-import React, { createContext, Suspense, useEffect, useMemo } from "react";
+import React, { createContext, Suspense, useEffect, useMemo, useState } from "react";
+import Cookies from "js-cookie";
 
 import { LoadingOverlay } from "@mantine/core";
 import { useNavigate, useOutlet } from "react-router-dom";
 import { useRefreshTokenMutation } from "@/redux/api/auth.api";
 import { useAppSelector } from "@/redux/hook";
-import Cookies from "js-cookie";
 import { TYPE_TOKEN } from "@/constants/token";
 import { ROUTER } from "@/constants/router";
+
+
 
 const ProtectedLayout: React.FC = () => {
     const outlet = useOutlet();
     const navigation = useNavigate();
     const profileId = useAppSelector(state => state.authSlice.profile?.id);
     
+    const [reconnect, setReconnect] = useState<boolean>(true);
     const [post, { isLoading }] = useRefreshTokenMutation();
 
     const ws = useMemo(() => {
@@ -20,7 +23,7 @@ const ProtectedLayout: React.FC = () => {
         const ws = new WebSocket(`${import.meta.env.VITE_WS_URL}`);
 
         return ws;
-    }, [profileId]);
+    }, [profileId, reconnect]);
     
     useEffect(() => {
         post(null);
@@ -34,7 +37,13 @@ const ProtectedLayout: React.FC = () => {
     if(isLoading) return <LoadingOverlay visible overlayProps={{ radius: "sm", blur: 2 }} />;
 
     return (
-        <ProtectedLayoutContext.Provider value={{ ws }}>
+        <ProtectedLayoutContext.Provider 
+            value={{ 
+                ws,
+                reconnect,
+                setReconnect,
+            }}
+        >
             <Suspense fallback={<LoadingOverlay visible overlayProps={{ radius: "sm", blur: 2 }} />}>
                 {outlet}
             </Suspense>
@@ -44,10 +53,14 @@ const ProtectedLayout: React.FC = () => {
 
 export type TypeProtectedLayoutContext = {
     ws: WebSocket | null;
+    reconnect: boolean;
+    setReconnect: (value: boolean) => void;
 }
 
 export const ProtectedLayoutContext = createContext<TypeProtectedLayoutContext>({
-    ws: null
+    ws: null,
+    reconnect: true,
+    setReconnect: (_: boolean) => {}
 });
 
 export default ProtectedLayout;

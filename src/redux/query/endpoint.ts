@@ -84,6 +84,11 @@ export const endPoint = {
             url: "mess/api/v1/protected/profile_group_chat",
             method: "GET",
             headers: HEADER.protectedHeader(),
+        }),
+        searchProfile: () => ({
+            url: "search/api/v1/protected/profile",
+            method: "GET",
+            headers: HEADER.protectedHeader(),
         })
     }
 }

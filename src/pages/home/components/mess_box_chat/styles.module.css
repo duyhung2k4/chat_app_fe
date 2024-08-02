@@ -5,6 +5,7 @@
     background-color: #5144FF;
     max-width: 45%;
     word-wrap: break-word;
+    cursor: pointer;
 }
 
 .to_mess {
@@ -14,4 +15,5 @@
     background-color: #4C4C4C;
     max-width: 45%;
     word-wrap: break-word;
+    cursor: pointer;
 }

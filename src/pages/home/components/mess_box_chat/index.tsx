@@ -1,15 +1,17 @@
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import dayjs from "dayjs";
+
 import { useLoadMessBoxChatQuery } from "@/redux/api/mess.api";
 import { useAppSelector } from "@/redux/hook";
-import { Group, Stack, Text, TextInput } from "@mantine/core";
+import { Avatar, Group, Stack, Text, TextInput } from "@mantine/core";
 import { IconSend2 } from "@tabler/icons-react";
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router";
-
-import classes from "./styles.module.css";
 import { ProtectedLayoutContext, TypeProtectedLayoutContext } from "@/layout/protected";
 import { MessModel } from "@/model/mess";
 import { HomeContext, TypeHomeContext } from "../..";
-import dayjs from "dayjs";
+import { TYPE_MESS } from "@/model/variable";
+
+import classes from "./styles.module.css";
 
 
 
@@ -76,9 +78,21 @@ const MessBoxChat: React.FC = () => {
             data: text,
             created_at: dayjs().toDate(),
         }
-        ws?.send(JSON.stringify(dataSend));
+
+        const payload: TypePayloadOnMess = {
+            type: "box_chat",
+            data: dataSend,
+        }
+
+        ws?.send(JSON.stringify(payload));
         setText("");
     }
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === "Enter") {
+            handleSendMess();
+        }
+    };
     
     return (
         <Stack
@@ -94,16 +108,26 @@ const MessBoxChat: React.FC = () => {
                     flexGrow: 1,
                     overflow: "scroll"
                 }}
+                gap={0}
             >
                 {
-                    listMess?.map(item =>
+                    listMess?.map((item, i) =>
                         <Group
                             key={item._id}
                             justify={profileId === item.from_id ? "end" : "start"}
+                            p={0}
+                            gap={8}
                         >
+                            {(
+                                profileId === item.to_id &&
+                                item.to_id !== listMess?.[i + 1]?.to_id
+                            ) ? <Avatar style={{ cursor: "pointer" }}/> : <Avatar style={{ opacity: 0 }}/>}
+
                             <Text
                                 className={profileId === item.from_id ? classes.from_mess : classes.to_mess}
                             >{item.data}</Text>
+
+                            
                         </Group>
                     )
                 }
@@ -115,6 +139,7 @@ const MessBoxChat: React.FC = () => {
                     style={{ flexGrow: 1 }}
                     value={text}
                     onChange={e => setText(e.target.value)}
+                    onKeyDown={handleKeyDown}
                 />
                 <IconSend2 
                     onClick={handleSendMess}
@@ -128,3 +153,8 @@ const MessBoxChat: React.FC = () => {
 }
 
 export default MessBoxChat;
+
+export type TypePayloadOnMess = {
+    type: TYPE_MESS;
+    data: any;
+}

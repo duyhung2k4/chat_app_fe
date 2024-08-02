@@ -3,6 +3,12 @@
     cursor: pointer;
 }
 
+.card_active {
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #414141;
+}
+
 .card:hover {
     background-color: #414141;
 }

@@ -20,3 +20,19 @@
         transition: 200ms;
     }
 }
+
+.modal {
+    & :global(.mantine-Modal-header) {
+        background-color: #000;
+        color: #FFF;
+    }
+
+    & :global(.mantine-Modal-content) {
+        background-color: #000;
+    }
+
+    & :global(.mantine-Modal-body) {
+        background-color: #191919;
+        color: #FFF !important;
+    }
+}
