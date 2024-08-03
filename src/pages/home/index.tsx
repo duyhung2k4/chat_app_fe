@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import MessBoxChat from "./components/mess_box_chat";
 import MessGroupChat from "./components/mess_group_chat";
 
@@ -15,6 +15,7 @@ import { useAppSelector } from "@/redux/hook";
 import { useNotification } from "@/hook/notification.hook";
 
 import classes from "./styles.module.css";
+import { ProtectedLayoutContext, TypeProtectedLayoutContext } from "@/layout/protected";
 
 
 
@@ -24,6 +25,7 @@ const Home: React.FC = () => {
 
     const navigation = useNavigate();
     const profileId = useAppSelector(state => state.authSlice.profile?.id);
+    const { ws } = useContext<TypeProtectedLayoutContext>(ProtectedLayoutContext);
 
     const noti = useNotification();
 
@@ -73,7 +75,7 @@ const Home: React.FC = () => {
         })
 
         dataGroupChat?.data?.forEach(item => {
-            mapGroupChat.set(item.id, item);
+            mapGroupChat.set(item.group_chat_id, item);
         })
 
         return {
@@ -83,6 +85,7 @@ const Home: React.FC = () => {
     }, [dataBoxChat, dataGroupChat]);
 
     const handleCreateBoxChat = async (values: TypeCreateGroupChat) => {
+        console.log(values);
         if(!profileId) return;
 
         const result = await post({
@@ -92,6 +95,15 @@ const Home: React.FC = () => {
         if("error" in result) {
             noti.error("Tạo nhóm chat thất bại");
             return;
+        }
+
+        if(ws && result.data.data) {
+            ws.send(JSON.stringify({
+                type: "create_group_chat",
+                data: {
+                    id: result.data.data.id
+                }
+            }))
         }
 
         noti.success("Tạo thành công");
@@ -120,10 +132,12 @@ const Home: React.FC = () => {
                 <Stack
                     style={{
                         height: "100vh",
+                        maxHeight: "100vh",
                         width: "350px",
                         borderRight: "1px solid gray",
                         padding: 8,
-                        position: "relative"
+                        position: "relative",
+                        overflow: "scroll"
                     }}
                 >
                     <LoadingOverlay visible={fetchBoxChat} zIndex={1000} overlayProps={{ radius: "sm", blur: 2, backgroundOpacity: 0.1 }} />
@@ -191,8 +205,8 @@ const Home: React.FC = () => {
                                     (dataGroupChat?.data || []).map(item =>
                                         <CardChat
                                             key={item.id}
-                                            name={`${item.id}`}
-                                            id={item.id}
+                                            name={`${item.group_chat_id}`}
+                                            id={item.group_chat_id}
                                             type="group_chat"
                                         />
                                     )

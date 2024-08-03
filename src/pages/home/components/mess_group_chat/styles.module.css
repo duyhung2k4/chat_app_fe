@@ -1,0 +1,19 @@
+.from_mess {
+    width: auto;
+    padding: 4px 10px;
+    border-radius: 16px;
+    background-color: #5144FF;
+    max-width: 45%;
+    word-wrap: break-word;
+    cursor: pointer;
+}
+
+.to_mess {
+    width: auto;
+    padding: 4px 10px;
+    border-radius: 16px;
+    background-color: #4C4C4C;
+    max-width: 45%;
+    word-wrap: break-word;
+    cursor: pointer;
+}

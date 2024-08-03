@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import dayjs from "dayjs";
 
-import { useLoadMessBoxChatQuery } from "@/redux/api/mess.api";
+import { useLoadMessQuery } from "@/redux/api/mess.api";
 import { useAppSelector } from "@/redux/hook";
 import { Avatar, Group, Stack, Text, TextInput } from "@mantine/core";
 import { IconSend2 } from "@tabler/icons-react";
@@ -32,7 +32,7 @@ const MessBoxChat: React.FC = () => {
     const {
         data,
         refetch,
-    } = useLoadMessBoxChatQuery({ id: id || "0" });
+    } = useLoadMessQuery({ id: id || "0", type_mess: "box_chat" });
     
     const boxChat = useMemo(() => {
         return mapBoxChat.get(Number(id)) || null;

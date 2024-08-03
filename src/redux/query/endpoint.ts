@@ -70,8 +70,8 @@ export const endPoint = {
             method: "POST",
             headers: HEADER.protectedHeader(),
         }),
-        loadMessBoxChat: () => ({
-            url: "mess/api/v1/protected/box_chat_load_mess",
+        loadMess: () => ({
+            url: "mess/api/v1/protected/load_mess",
             method: "GET",
             headers: HEADER.protectedHeader(),
         }),
