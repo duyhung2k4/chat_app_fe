@@ -47,6 +47,12 @@ export const messApi = createApi({
                 ...endPoint.mess.getGroupChat(),
             }),
         }),
+        getMemberGroupChat: builder.query<QueryReturnType<ProfileGroupChatModel[]>, { id: string }>({
+            query: (payload) => ({
+                ...endPoint.mess.getMemberGroupChat(),
+                params: { id: payload.id },
+            }),
+        }),
         searchProfile: builder.query<QueryReturnType<ProfileModel[]>, { name: string, email: string }>({
             query: (payload) => ({
                 ...endPoint.mess.searchProfile(),
@@ -62,6 +68,7 @@ export const {
     useAddMemberGroupChatMutation,
     useGetBoxChatQuery,
     useGetGroupChatQuery,
+    useGetMemberGroupChatQuery,
     useLoadMessQuery,
     useSearchProfileQuery,
 } = messApi;

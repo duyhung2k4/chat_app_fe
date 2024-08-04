@@ -97,7 +97,7 @@ const MessBoxChat: React.FC = () => {
     return (
         <Stack
             style={{
-                height: "100%"
+                height: "100%",
             }}
         >
             <Group>Box Name</Group>
@@ -106,7 +106,8 @@ const MessBoxChat: React.FC = () => {
                 style={{
                     width: "100%",
                     flexGrow: 1,
-                    overflow: "scroll"
+                    overflow: "scroll",
+                    padding: 8,
                 }}
                 gap={0}
             >
@@ -126,14 +127,12 @@ const MessBoxChat: React.FC = () => {
                             <Text
                                 className={profileId === item.from_id ? classes.from_mess : classes.to_mess}
                             >{item.data}</Text>
-
-                            
                         </Group>
                     )
                 }
                 <div ref={messageEndRef} />
             </Stack>
-            <Group>
+            <Group p={8}>
                 <TextInput
                     placeholder="Nhập tin nhắn"
                     style={{ flexGrow: 1 }}
@@ -143,9 +142,7 @@ const MessBoxChat: React.FC = () => {
                 />
                 <IconSend2 
                     onClick={handleSendMess}
-                    style={{
-                        cursor: "pointer"
-                    }}
+                    style={{ cursor: "pointer" }}
                 />
             </Group>
         </Stack>

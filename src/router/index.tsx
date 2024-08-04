@@ -11,7 +11,6 @@ import {
     PageLogin, 
     PageNotFound,
     PageRegister,
-    PageTest,
 } from "./lazy";
 import { ROUTER } from "@/constants/router";
 
@@ -28,7 +27,6 @@ const AppRouter: React.FC = () => {
             <Route path={ROUTER.HOME.href} element={<PageHome/>} />
             <Route path={ROUTER.BOX_CHAT.href} element={<PageHome/>} />
             <Route path={ROUTER.GROUP_CHAT.href} element={<PageHome/>} />
-            <Route path={ROUTER.TEST.href} element={<PageTest/>} />
           </Route>
         </Route>
 

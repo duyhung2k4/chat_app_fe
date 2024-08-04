@@ -24,10 +24,10 @@ const Home: React.FC = () => {
     const [search, setSearch] = useState<string>("");
 
     const navigation = useNavigate();
+    const noti = useNotification();
     const profileId = useAppSelector(state => state.authSlice.profile?.id);
     const { ws } = useContext<TypeProtectedLayoutContext>(ProtectedLayoutContext);
 
-    const noti = useNotification();
 
     const [post, { isLoading }] = useCreateGroupChatMutation();
 
@@ -84,7 +84,7 @@ const Home: React.FC = () => {
         }
     }, [dataBoxChat, dataGroupChat]);
 
-    const handleCreateBoxChat = async (values: TypeCreateGroupChat) => {
+    const handleCreateGroupChat = async (values: TypeCreateGroupChat) => {
         console.log(values);
         if(!profileId) return;
 
@@ -108,6 +108,8 @@ const Home: React.FC = () => {
 
         noti.success("Tạo thành công");
         setModalCreateGroupChat(false);
+        formCreateGroupChat.reset();
+        refetchGroupChat();
     }
 
     return (
@@ -221,7 +223,6 @@ const Home: React.FC = () => {
                         height: "100vh",
                         width: "calc(100vw - 350px)",
                         borderRight: "1px solid gray",
-                        padding: 8,
                     }}
                 >
                     {type_mess === "box_chat" ? <MessBoxChat /> : <MessGroupChat />}
@@ -237,7 +238,7 @@ const Home: React.FC = () => {
                 <form 
                     id="create-group-chat" 
                     style={{ marginTop: 16 }} 
-                    onSubmit={formCreateGroupChat.onSubmit(handleCreateBoxChat)}
+                    onSubmit={formCreateGroupChat.onSubmit(handleCreateGroupChat)}
                 >
                     <TextInput
                         label="Tên nhóm chat"
