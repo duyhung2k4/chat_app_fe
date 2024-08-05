@@ -139,11 +139,13 @@ const MessGroupChat: React.FC = () => {
                                 onClick={() => setModalAddMember(true)}
                             />
                         </Tooltip>
-                        <Tooltip label="Rời nhóm">
-                            <IconLogout
-                                style={{ cursor: "pointer" }}
-                            />
-                        </Tooltip>
+                        {profileId !== boxChat?.group_chat?.create_id &&
+                            <Tooltip label="Rời nhóm">
+                                <IconLogout
+                                    style={{ cursor: "pointer" }}
+                                />
+                            </Tooltip>
+                        }
                     </Group>
                 </Group>
                 <Stack
@@ -165,9 +167,9 @@ const MessGroupChat: React.FC = () => {
                                 gap={8}
                             >
                                 {(
-                                    profileId === item.to_id &&
-                                    item.to_id !== listMess?.[i + 1]?.to_id
-                                ) ? <Avatar style={{ cursor: "pointer" }} /> : <Avatar style={{ opacity: 0 }} />}
+                                    profileId !== item.from_id &&
+                                    item.from_id !== listMess?.[i + 1]?.from_id
+                                ) ? <Avatar style={{ cursor: "pointer" }}/> : <Avatar style={{ opacity: 0 }} />}
 
                                 <Text
                                     className={profileId === item.from_id ? classes.from_mess : classes.to_mess}

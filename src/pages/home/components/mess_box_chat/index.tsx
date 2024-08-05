@@ -100,7 +100,21 @@ const MessBoxChat: React.FC = () => {
                 height: "100%",
             }}
         >
-            <Group>Box Name</Group>
+            <Group
+                justify="space-between"
+                style={{
+                    backgroundColor: "#000",
+                    padding: 8,
+                }}
+            >
+                <Text>{
+                    profileId === boxChat?.from_id ? 
+                    `${boxChat?.to_profile?.first_name} ${boxChat?.to_profile?.last_name}` :
+                    `${boxChat?.from_profile?.first_name} ${boxChat?.from_profile?.last_name}`
+                }</Text>
+                <Group>
+                </Group>
+            </Group>
             <Stack
                 ref={messageListRef}
                 style={{
